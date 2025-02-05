@@ -4,22 +4,19 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget{
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       home: HomeActivity(),
       debugShowCheckedModeBanner: false,
     );
   }
-
 }
 
 class HomeActivity extends StatefulWidget {
-
   const HomeActivity({super.key});
 
   @override
@@ -74,7 +71,15 @@ class _NameNumberListScreenState extends State<HomeActivity> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Contact List")),
+      appBar: AppBar(
+        title: Text('Contact List'),
+        titleSpacing: 0,
+        centerTitle: true,
+        backgroundColor: Colors.grey,
+        toolbarHeight: 60,
+        toolbarOpacity: 1,
+        elevation: 4,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -90,6 +95,10 @@ class _NameNumberListScreenState extends State<HomeActivity> {
             ),
             SizedBox(height: 16),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue, // Background color
+                foregroundColor: Colors.white, // Text color
+              ),
               onPressed: addEntry,
               child: Text("Add"),
             ),
@@ -99,6 +108,14 @@ class _NameNumberListScreenState extends State<HomeActivity> {
                 itemBuilder: (context, index) {
                   return Card(
                     child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: index % 2 == 0 ? Colors.blueGrey : Colors.blue,
+                        foregroundColor: Colors.cyanAccent,
+                        child: Text(
+                          entries[index]['name']![0],
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ),
                       title: Text(entries[index]['name']!),
                       subtitle: Text(entries[index]['number']!),
                       onLongPress: () => confirmDelete(index),
