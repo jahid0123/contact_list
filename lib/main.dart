@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(const MyApp());
@@ -68,6 +69,15 @@ class _NameNumberListScreenState extends State<HomeActivity> {
     );
   }
 
+  void makePhoneCall(String phoneNumber) async{
+    final Uri url = Uri(scheme: 'tel', path: phoneNumber);
+    if(await canLaunchUrl(url)){
+      await launchUrl(url);
+    }else{
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,7 +110,7 @@ class _NameNumberListScreenState extends State<HomeActivity> {
                 foregroundColor: Colors.white, // Text color
               ),
               onPressed: addEntry,
-              child: Text("Add"),
+              child: Text("Add Contact"),
             ),
             Expanded(
               child: ListView.builder(
@@ -118,6 +128,9 @@ class _NameNumberListScreenState extends State<HomeActivity> {
                       ),
                       title: Text(entries[index]['name']!),
                       subtitle: Text(entries[index]['number']!),
+                      trailing: IconButton(
+                          onPressed: () => makePhoneCall(entries[index]['number']!),
+                          icon: Icon(Icons.phone, color: Colors.blue,)),
                       onLongPress: () => confirmDelete(index),
                     ),
                   );
